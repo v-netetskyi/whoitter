@@ -1,45 +1,45 @@
 package repo;
 
 import model.Post;
-import utils.Utils;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 
 public class InMemoryPostRepository implements PostRepository {
 
     private final Map<Long, Post> posts;
+    private AtomicLong id = new AtomicLong(0);
 
     public InMemoryPostRepository() {
         this.posts = new HashMap<>();
     }
 
     public Post findById(long id) {
-        Utils.nyi();
-        return null;
+        return this.posts.get(id);
     }
 
     public Collection<Post> findAll() {
-        Utils.nyi();
-        return null;
+        return this.posts.values();
     }
 
     public Collection<Post> findAll(long from, int size) {
-        Utils.nyi();
-        return null;
+        return this.posts.values().stream().skip(from).limit(size).collect(Collectors.toList());
     }
 
     public long add(Post post) {
-        Utils.nyi();
-        return 0;
+        long postId = this.id.incrementAndGet();
+        this.posts.put(postId, post.withId(postId));
+        return postId;
     }
 
     public void update(Post post) {
-        Utils.nyi();
+        this.posts.computeIfPresent(post.getId(), (key, value) -> value = post);
     }
 
     public void delete(long id) {
-        Utils.nyi();
+        this.posts.remove(id);
     }
 }
