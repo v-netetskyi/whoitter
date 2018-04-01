@@ -1,5 +1,5 @@
 import com.fasterxml.jackson.databind.ObjectMapper;
-import config.AppConfigs;
+import config.WebConfigs;
 import junit.framework.TestCase;
 import model.Post;
 import org.junit.Test;
@@ -10,7 +10,7 @@ public class ObjectMappingTest {
 
     @Test
     public void postMapping() throws IOException {
-        final AppConfigs appConfigs = new AppConfigs();
+        final WebConfigs appConfigs = new WebConfigs();
         final ObjectMapper objectMapper = appConfigs.objectMapper();
 
         final Post post1 = Post.of("some text");
